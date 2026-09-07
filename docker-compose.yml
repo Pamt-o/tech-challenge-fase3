@@ -1,0 +1,72 @@
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-tech-challenge
+    environment:
+      POSTGRES_DB: agendamento_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tech-network
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: rabbitmq-tech-challenge
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"   # Porta AMQP (comunicação)
+      - "15672:15672" # Interface de gerenciamento (web)
+    networks:
+      - tech-network
+
+  service-agendamento:
+    build:
+      context: ./service_agendamento
+      dockerfile: Dockerfile
+    container_name: agendamento-app
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/agendamento_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    ports:
+      - "8080:8080"
+    networks:
+      - tech-network
+
+  service-notificacao:
+    build:
+      context: ./service_notificacao
+      dockerfile: Dockerfile
+    container_name: notificacao-app
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    ports:
+      - "8081:8080"
+    networks:
+      - tech-network
+
+volumes:
+  postgres_data:
+
+networks:
+  tech-network:
+    driver: bridge
