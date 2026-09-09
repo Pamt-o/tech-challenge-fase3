@@ -1,6 +1,7 @@
 package br.com.service.agendamento.service;
 
 import br.com.service.agendamento.dto.request.UsuarioRequest;
+import br.com.service.agendamento.dto.response.UsuarioResponse;
 import br.com.service.agendamento.entity.Usuario;
 import br.com.service.agendamento.exception.BusinessException;
 import br.com.service.agendamento.exception.ResourceNotFoundException;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
@@ -16,15 +19,31 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // Listar todos os usuários
+    public List<UsuarioResponse> listarTodos() {
+        return usuarioRepository.findAll().stream()
+                .map(UsuarioResponse::fromEntity)
+                .toList();
+    }
+
+    //Listar usuários por role
+    public List<UsuarioResponse> listarPorRole(String role) {
+        Usuario.Role roleEnum;
+        try {
+            roleEnum = Usuario.Role.valueOf(role.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BusinessException("Perfil inválido. Use: MEDICO, ENFERMEIRO ou PACIENTE");
+        }
+        return usuarioRepository.findByRole(roleEnum).stream()
+                .map(UsuarioResponse::fromEntity)
+                .toList();
+    }
+
     public Usuario buscarPorId(Long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Usuário não encontrado com ID: " + id));
     }
 
-    public Usuario buscarPorUsername(String username) {
-        return usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new BusinessException("Usuário não encontrado: " + username));
-    }
 
     public Usuario cadastrar(UsuarioRequest request) {
         if (usuarioRepository.findByUsername(request.username()).isPresent()) {
