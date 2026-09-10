@@ -4,7 +4,6 @@ import br.com.service.agendamento.dto.request.UsuarioRequest;
 import br.com.service.agendamento.dto.response.UsuarioResponse;
 import br.com.service.agendamento.entity.Usuario;
 import br.com.service.agendamento.exception.BusinessException;
-import br.com.service.agendamento.exception.ResourceNotFoundException;
 import br.com.service.agendamento.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
