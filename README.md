@@ -15,7 +15,7 @@ Este projeto foi desenvolvido como parte do **Tech Challenge da Fase 3** do curs
 ---
 ## 🏗️ Arquitetura da Solução
 
-![alt text](https://github.com/Pamt-o/gerenciamento.restaurante.api/blob/master/docs/img/jacoco.jpg)
+![alt text](https://github.com/Pamt-o/tech-challenge-fase3/blob/master/docs/img/arquitetura.png)
 
 ---
 ## 🛠️ Tecnologias Utilizadas
