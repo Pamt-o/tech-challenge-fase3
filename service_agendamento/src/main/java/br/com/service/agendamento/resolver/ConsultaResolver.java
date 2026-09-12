@@ -24,7 +24,7 @@ public class ConsultaResolver {
     private final ConsultaService consultaService;
     private final ConsultaProducer consultaProducer;
 
-    // 🔹 1. LISTAR TODAS AS CONSULTAS (PACIENTE VÊ SÓ AS DELE)
+    //LISTAR TODAS AS CONSULTAS (PACIENTE VÊ SÓ AS DELE)
     @QueryMapping
     @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO', 'PACIENTE')")
     public List<Consulta> consultas() {
@@ -32,7 +32,7 @@ public class ConsultaResolver {
         return consultaService.listarConsultas(usuario);
     }
 
-    // 🔹 2. LISTAR CONSULTAS FUTURAS
+    //LISTAR CONSULTAS FUTURAS
     @QueryMapping
     @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO', 'PACIENTE')")
     public List<Consulta> consultasFuturas() {
@@ -40,14 +40,14 @@ public class ConsultaResolver {
         return consultaService.listarConsultasFuturas(usuario);
     }
 
-    // 🔹 3. BUSCAR UMA CONSULTA POR ID (PACIENTE só pode ver se for dele)
+    //BUSCAR UMA CONSULTA POR ID (PACIENTE só pode ver se for dele)
     @QueryMapping
     @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO', 'PACIENTE')")
     public Consulta consulta(@Argument Long id) {
         Usuario usuario = getUsuarioLogado();
         Consulta consulta = consultaService.buscarPorId(id);
 
-        // 🔥 Se for PACIENTE, verifica se a consulta é dele
+        //Se for PACIENTE, verifica se a consulta é dele
         if (usuario.getRole() == Usuario.Role.PACIENTE) {
             if (!consulta.getPaciente().getId().equals(usuario.getId())) {
                 throw new RuntimeException("Acesso negado: você só pode visualizar suas próprias consultas.");
@@ -57,13 +57,13 @@ public class ConsultaResolver {
         return consulta;
     }
 
-    // 🔹 4. CRIAR CONSULTA (MÉDICO OU ENFERMEIRO)
+    //CRIAR CONSULTA (MÉDICO OU ENFERMEIRO)
     @MutationMapping
     @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO')")
     public Consulta criarConsulta(@Argument ConsultaInput input) {
         Consulta consulta = consultaService.criarConsulta(input);
 
-        // 🔥 Publica evento no RabbitMQ
+        //Publica evento no RabbitMQ
         EventoNotificacaoDTO evento = new EventoNotificacaoDTO(
                 consulta.getId(),
                 consulta.getPaciente().getEmail(),
@@ -76,13 +76,13 @@ public class ConsultaResolver {
         return consulta;
     }
 
-    // 🔹 5. EDITAR CONSULTA (MÉDICO OU ENFERMEIRO)
+    //EDITAR CONSULTA (MÉDICO OU ENFERMEIRO)
     @MutationMapping
     @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO')")
     public Consulta editarConsulta(@Argument Long id, @Argument ConsultaInput input) {
         Consulta consulta = consultaService.editarConsulta(id, input);
 
-        // 🔥 Publica evento no RabbitMQ
+        // Publica evento no RabbitMQ
         EventoNotificacaoDTO evento = new EventoNotificacaoDTO(
                 consulta.getId(),
                 consulta.getPaciente().getEmail(),
@@ -95,7 +95,7 @@ public class ConsultaResolver {
         return consulta;
     }
 
-    // 🔹 6. CANCELAR CONSULTA (MÉDICO OU ENFERMEIRO)
+    //CANCELAR CONSULTA (MÉDICO OU ENFERMEIRO)
     @MutationMapping
     @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO')")
     public Consulta cancelarConsulta(@Argument Long id) {
@@ -107,6 +107,24 @@ public class ConsultaResolver {
                 consulta.getPaciente().getNome(),
                 consulta.getDataHora(),
                 "CANCELADA"
+        );
+        consultaProducer.enviarEventoEdicao(evento);
+
+        return consulta;
+    }
+
+    @MutationMapping
+    @PreAuthorize("hasRole('MEDICO')")  //Apenas Médico pode realizar
+    public Consulta realizarConsulta(@Argument Long id) {
+        Consulta consulta = consultaService.realizarConsulta(id);
+
+        // Publica evento no RabbitMQ
+        EventoNotificacaoDTO evento = new EventoNotificacaoDTO(
+                consulta.getId(),
+                consulta.getPaciente().getEmail(),
+                consulta.getPaciente().getNome(),
+                consulta.getDataHora(),
+                "REALIZADA"
         );
         consultaProducer.enviarEventoEdicao(evento);
 

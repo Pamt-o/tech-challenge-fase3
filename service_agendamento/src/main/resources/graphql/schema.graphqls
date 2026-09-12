@@ -8,6 +8,7 @@ type Mutation {
     criarConsulta(input: ConsultaInput!): Consulta!
     editarConsulta(id: ID!, input: ConsultaInput!): Consulta!
     cancelarConsulta(id: ID!): Consulta!
+    realizarConsulta(id: ID!): Consulta!
 }
 
 input ConsultaInput {

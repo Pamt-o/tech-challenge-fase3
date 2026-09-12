@@ -26,7 +26,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
-    // 🔥 Listar todos os usuários (apenas para ADMIN ou Médicos)
+    // 🔥 Listar todos os usuários (apenas para Enfermeiros ou Médicos)
     @GetMapping("/usuarios")
     @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO')")
     public ResponseEntity<List<UsuarioResponse>> listarUsuarios() {

@@ -31,7 +31,7 @@ public class UsuarioService {
         try {
             roleEnum = Usuario.Role.valueOf(role.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new BusinessException("Perfil inválido. Use: MEDICO, ENFERMEIRO ou PACIENTE");
+            throw new BusinessException("Perfil inválido. Use: MEDICO ou ENFERMEIRO");
         }
         return usuarioRepository.findByRole(roleEnum).stream()
                 .map(UsuarioResponse::fromEntity)

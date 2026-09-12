@@ -120,6 +120,22 @@ public class ConsultaService {
         return consultaRepository.save(consulta);
     }
 
+    @Transactional
+    public Consulta realizarConsulta(Long id) {
+        log.info("Realizando consulta ID={}", id);
+
+        Consulta consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Consulta não encontrada com ID: " + id));
+
+        // Só pode realizar se estiver AGENDADA
+        if (consulta.getStatus() != Consulta.StatusConsulta.AGENDADA) {
+            throw new BusinessException("Apenas consultas com status AGENDADA podem ser realizadas.");
+        }
+
+        consulta.setStatus(Consulta.StatusConsulta.REALIZADA);
+        return consultaRepository.save(consulta);
+    }
+
 
     private void validarPaciente(Usuario usuario) {
         if (usuario.getRole() != Usuario.Role.PACIENTE) {

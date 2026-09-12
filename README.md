@@ -1,4 +1,4 @@
-# 🏥 Tech Challenge - Fase 3 | Hospital API
+# 🏥 Tech Challenge - Fase 3 | Agendamento de consultas
 
 Sistema de agendamento de consultas com autenticação básica, GraphQL e comunicação assíncrona via RabbitMQ.
 
