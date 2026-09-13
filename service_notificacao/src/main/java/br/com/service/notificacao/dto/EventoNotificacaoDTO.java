@@ -7,6 +7,8 @@ public record EventoNotificacaoDTO(
         Long consultaId,
         String pacienteEmail,
         String pacienteNome,
+        String medicoNome,
         LocalDateTime dataHora,
-        String acao
+        String acao, // "CRIADA" ou "EDITADA"
+        String status
 ) {}

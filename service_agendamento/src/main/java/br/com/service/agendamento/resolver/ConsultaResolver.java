@@ -4,6 +4,7 @@ import br.com.service.agendamento.dto.ConsultaInput;
 import br.com.service.agendamento.dto.EventoNotificacaoDTO;
 import br.com.service.agendamento.entity.Consulta;
 import br.com.service.agendamento.entity.Usuario;
+import br.com.service.agendamento.exception.BusinessException;
 import br.com.service.agendamento.producer.ConsultaProducer;
 import br.com.service.agendamento.service.ConsultaService;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,7 @@ public class ConsultaResolver {
         //Se for PACIENTE, verifica se a consulta é dele
         if (usuario.getRole() == Usuario.Role.PACIENTE) {
             if (!consulta.getPaciente().getId().equals(usuario.getId())) {
-                throw new RuntimeException("Acesso negado: você só pode visualizar suas próprias consultas.");
+                throw new BusinessException("Acesso negado: você só pode visualizar suas próprias consultas.");
             }
         }
 
@@ -68,8 +69,10 @@ public class ConsultaResolver {
                 consulta.getId(),
                 consulta.getPaciente().getEmail(),
                 consulta.getPaciente().getNome(),
+                consulta.getMedico().getNome(),
                 consulta.getDataHora(),
-                "CRIADA"
+                "CRIADA",
+                consulta.getStatus().name()
         );
         consultaProducer.enviarEventoCriacao(evento);
 
@@ -87,8 +90,10 @@ public class ConsultaResolver {
                 consulta.getId(),
                 consulta.getPaciente().getEmail(),
                 consulta.getPaciente().getNome(),
+                consulta.getMedico().getNome(),
                 consulta.getDataHora(),
-                "EDITADA"
+                "EDITADA",
+                consulta.getStatus().name()
         );
         consultaProducer.enviarEventoEdicao(evento);
 
@@ -105,16 +110,19 @@ public class ConsultaResolver {
                 consulta.getId(),
                 consulta.getPaciente().getEmail(),
                 consulta.getPaciente().getNome(),
+                consulta.getMedico().getNome(),
                 consulta.getDataHora(),
-                "CANCELADA"
+                "CANCELADA",
+                consulta.getStatus().name()
         );
         consultaProducer.enviarEventoEdicao(evento);
 
         return consulta;
     }
 
+    //ALTERAR STATUS CONSULTA PARA REALIZADA (MÉDICO OU ENFERMEIRO)
     @MutationMapping
-    @PreAuthorize("hasRole('MEDICO')")  //Apenas Médico pode realizar
+    @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO')")
     public Consulta realizarConsulta(@Argument Long id) {
         Consulta consulta = consultaService.realizarConsulta(id);
 
@@ -123,8 +131,10 @@ public class ConsultaResolver {
                 consulta.getId(),
                 consulta.getPaciente().getEmail(),
                 consulta.getPaciente().getNome(),
+                consulta.getMedico().getNome(),
                 consulta.getDataHora(),
-                "REALIZADA"
+                "REALIZADA",
+                consulta.getStatus().name()
         );
         consultaProducer.enviarEventoEdicao(evento);
 

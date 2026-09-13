@@ -56,3 +56,50 @@ docker-compose up -d --build
 ```bash
 docker-compose ps
 ```
+### Saída esperada:
+
+| NAME                        | IMAGE                                          | STATUS | PORTS  |
+|:----------------------------|:-----------------------------------------------|:--|---|
+| **agendamento-app**         | tech-challenge-fase3-service-agendamento       | Up| 0.0.0.0:8080->8080/tcp  |
+| **notificacao-app**         | tech-challenge-fase3-service-notificacao       | Up|  0.0.0.0:8081->8080/tcp |
+| **postgres-tech-challenge** | postgres:16-alpine                             | Up | 0.0.0.0:5432->5432/tcp  |
+| **rabbitmq-tech-challenge** | rabbitmq:3.13-management-alpine                | Up | 0.0.0.0:5672->5672/tcp, 0.0.0.0:15672->15672/tcp  |
+
+
+### Passo 4: Verificar os logs
+
+```bash
+docker-compose logs -f service-agendamento
+```
+
+```bash
+docker-compose logs -f service-notificacao
+```
+
+---
+## 🧪 Collections para Teste
+
+O projeto inclui duas collections do Postman para facilitar os testes:
+
+### 📁 REST — Cadastro de Usuários
+
+Localização: `postman/tech-challenge-rest.postman_collection.json`
+
+**Como usar:**
+1. Importe no Postman (File → Import)
+2. Configure o environment com `baseUrl = http://localhost:8080`
+3. Execute na ordem:
+    - Cadastrar Médico
+    - Cadastrar Enfermeiro
+    - Cadastrar Paciente
+    - Listar Usuários (com Basic Auth)
+
+### 📁 GraphQL — Consultas
+
+Localização: `postman/tech-challenge-graphql.postman_collection.json`
+
+**Como usar:**
+1. Importe no Postman
+2. Configure o Basic Auth com as credenciais de um usuário cadastrado
+3. Execute as queries e mutations
+
