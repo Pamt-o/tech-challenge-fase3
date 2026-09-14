@@ -83,12 +83,11 @@ O projeto inclui duas collections do Postman para facilitar os testes:
 
 ### 📁 REST — Cadastro de Usuários
 
-Localização: `postman/tech-challenge-rest.postman_collection.json`
+Localização: `docs/collections/COLLECTION 1 -  REST.postman_collection.json`
 
 **Como usar:**
 1. Importe no Postman (File → Import)
-2. Configure o environment com `baseUrl = http://localhost:8080`
-3. Execute na ordem:
+2. Execute na ordem:
     - Cadastrar Médico
     - Cadastrar Enfermeiro
     - Cadastrar Paciente
@@ -96,10 +95,27 @@ Localização: `postman/tech-challenge-rest.postman_collection.json`
 
 ### 📁 GraphQL — Consultas
 
-Localização: `postman/tech-challenge-graphql.postman_collection.json`
+Localização: `docs/collections/COLLECTION 2 - GraphQL.postman_collection.json`
 
 **Como usar:**
 1. Importe no Postman
-2. Configure o Basic Auth com as credenciais de um usuário cadastrado
-3. Execute as queries e mutations
+2. Execute as queries e mutations
+---
+### 📚 Documentação Complementar
+
+Para **detalhes aprofundados** sobre a arquitetura, decisões técnicas, modelagem de domínio, fundamentação teórica e decisões arquiteturais (ADRs), consulte o documento:
+
+> 📄 **`DOCUMENTACAO-TECNICA.md`**
+
+Ele contém:
+- Fundamentação teórica (microsserviços, GraphQL, mensageria, Spring Security);
+- Diagramas C4 (contexto e fluxo);
+- Modelagem de domínio detalhada;
+- Matriz de autorização e níveis de acesso;
+- Decisões arquiteturais justificadas (ADRs);
+- Ciclo de vida de uma consulta e fluxo assíncrono;
+---
+## 🎯 Conclusão
+
+O **Hospital API** implementa todos os requisitos do Tech Challenge da Fase 3, integrando **Spring Security (Basic Auth + RBAC)**, **GraphQL**, **microsserviços** e **comunicação assíncrona com RabbitMQ** em um ambiente containerizado com **Docker Compose**. O projeto está funcional, documentado e pronto para avaliação.
 

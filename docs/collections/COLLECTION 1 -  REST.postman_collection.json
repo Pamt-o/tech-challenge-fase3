@@ -1,7 +1,8 @@
 {
   "info": {
     "_postman_id": "d0b1b713-68f5-4f95-aa4a-cc58d92630a4",
-    "name": "Collection REST",
+    "name": "COLLECTION 1 -  REST",
+    "description": "Orinetações:\n\nSeguir ordem de criação conforme listado abaixo para que as consultas feitas na COLLECTION 2 - GraphQL funcionem sem ser necessário preencher os dados.   \n   \nCriar os usuários na ordem: \n\n- Médico \n    \n- Paciente 1 \n    \n- Paciente 2 \n    \n- Enfermeiro",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "19595417"
   },
@@ -43,7 +44,7 @@
           "response": []
         },
         {
-          "name": "Criar  - Paciente",
+          "name": "Criar  - Paciente 1",
           "request": {
             "auth": {
               "type": "noauth"
@@ -269,13 +270,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Basic bWVkaWNvMToxMjM=",
-                "disabled": true
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",
@@ -322,13 +317,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Basic bWVkaWNvMToxMjM=",
-                "disabled": true
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",

@@ -1,0 +1,710 @@
+{
+  "info": {
+    "_postman_id": "7176ad65-1b87-468e-ac2a-391e7559125a",
+    "name": "COLLECTION 2 - GraphQL",
+    "description": "COLLECTION 2 - GraphQL (Consultas) \n\nPara facilitar a validação das funcionalidades da API GraphQL, foram disponibilizadas duas abordagens complementares de teste no Postman, permitindo que o avaliador escolha a que melhor se adequa ao seu fluxo de trabalho: \n\n- Collection Postman com Operações Pré-configuradas \n    \n\nA collection Tech Challenge - GraphQL contém todas as queries e mutations necessárias para testar o sistema, já organizadas em grupos lógicos: \n\n- Queries (Médico/Enfermeiro): listar todas as consultas, listar consultas futuras, buscar consulta por ID; \n    \n- Mutations (Médico/Enfermeiro): criar, editar, cancelar e realizar consultas; \n    \n- Cenários de Paciente: listagem restrita às suas próprias consultas; \n    \n- Cenários de Erro: validação de bloqueios por perfil, recursos inexistentes e regras de negócio. \n    \n\nCada requisição já vem com o Basic Auth configurado para o perfil adequado (médico, enfermeiro ou paciente) e com as variáveis pré-preenchidas, permitindo que o avaliador apenas clique em \"Send\" para visualizar o resultado esperado. \n\n- GraphQL Nativo do Postman (via Schema Introspection) \n    \n\nAlternativamente, o avaliador pode explorar a API de forma interativa por meio do recurso GraphQL nativo do Postman. Para isso, basta: \n\n1. Criar uma nova requisição do tipo GraphQL; \n    \n2. Configurar a URL [http://localhost:8080/graphql](http://localhost:8080/graphql) e a autenticação Basic Auth; \n    \n3. Clicar em \"Schema\" → \"Import Schema\" para carregar o schema via introspection; \n    \n4. A partir daí, o Postman oferece autocomplete, validação de sintaxe e uma aba dedicada de variáveis, permitindo escrever queries personalizadas e explorar a documentação do schema em tempo real.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19595417"
+  },
+  "item": [
+    {
+      "name": "Consultas",
+      "item": [
+        {
+          "name": "Criar consulta - Paciente 1",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "dr_joao",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CriarConsulta {\r\n    criarConsulta(\r\n        input: {\r\n            pacienteId: \"2\"\r\n            medicoId: \"1\"\r\n            dataHora: \"2026-09-15T14:30:00\"\r\n            observacoes: \"Primeira consulta\"\r\n        }\r\n    ) {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            username\r\n            nome\r\n            email\r\n            role\r\n        }\r\n        medico {\r\n            id\r\n            username\r\n            email\r\n            role\r\n            nome\r\n        }\r\n    }\r\n}\r\n"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar consulta - Paciente 1 futura",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "dr_joao",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CriarConsulta {\r\n    criarConsulta(\r\n        input: {\r\n            pacienteId: \"2\"\r\n            medicoId: \"1\"\r\n            dataHora: \"2026-10-20T14:00:00\"\r\n            observacoes: \"Retorno\"\r\n        }\r\n    ) {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            username\r\n            nome\r\n            email\r\n            role\r\n        }\r\n        medico {\r\n            id\r\n            username\r\n            email\r\n            role\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar consulta - Paciente 2",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "dr_joao",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CriarConsulta {\r\n    criarConsulta(\r\n        input: {\r\n            pacienteId: \"3\"\r\n            medicoId: \"1\"\r\n            dataHora: \"2026-09-15T15:30:00\"\r\n            observacoes: \"Primeira consulta\"\r\n        }\r\n    ) {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            username\r\n            nome\r\n            email\r\n            role\r\n        }\r\n        medico {\r\n            id\r\n            username\r\n            email\r\n            role\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar consulta - Paciente 2 futura",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "dr_joao",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CriarConsulta {\r\n    criarConsulta(\r\n        input: {\r\n            pacienteId: \"3\"\r\n            medicoId: \"1\"\r\n            dataHora: \"2026-09-25T15:30:00\"\r\n            observacoes: \"Retorno\"\r\n        }\r\n    ) {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            username\r\n            nome\r\n            email\r\n            role\r\n        }\r\n        medico {\r\n            id\r\n            username\r\n            email\r\n            role\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lista de consultas",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "dr_joao",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query Consultas {\r\n    consultas {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            nome\r\n        }\r\n        medico {\r\n            id\r\n            nome\r\n        }\r\n    }\r\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lista de consultas por paciente 1",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_jose",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query Consultas {\r\n    consultas {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            nome\r\n        }\r\n        medico {\r\n            id\r\n            nome\r\n        }\r\n    }\r\n}\r\n"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lista de consultas futuras",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "enf_maria",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query Consultas {\r\n    consultas {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            nome\r\n        }\r\n        medico {\r\n            id\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lista de consultas futuras por paciente 2",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_ana",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query ConsultasFuturas {\r\n    consultasFuturas {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            nome\r\n            role\r\n        }\r\n    }\r\n}\r\n"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar por ID - Paciente 2",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_ana",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query Consulta {\r\n    consulta(id: \"3\") {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            nome\r\n        }\r\n    }\r\n}\r\n"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Editar consulta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "enf_maria",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation EditarConsulta {\r\n    editarConsulta(\r\n        id: \"2\"\r\n        input: {\r\n            pacienteId: \"2\"\r\n            medicoId: \"1\"\r\n            dataHora: \"2026-09-20T14:30\"\r\n            observacoes: \"Alteração de consulta\"\r\n        }\r\n    ) {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar consulta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "enf_maria",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CancelarConsulta {\r\n    cancelarConsulta(id: \"1\") {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            nome\r\n        }\r\n        medico {\r\n            id\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Alteração de status da consulta para realizada",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "enf_maria",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation RealizarConsulta {\r\n    realizarConsulta(id: \"2\") {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cenários de erro",
+      "item": [
+        {
+          "name": "Inválido - Criar consulta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_jose",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CriarConsulta {\r\n    criarConsulta(\r\n        input: {\r\n            pacienteId: \"2\"\r\n            medicoId: \"1\"\r\n            dataHora: \"2026-09-10T14:30:00\"\r\n            observacoes: \"Primeira consulta\"\r\n        }\r\n    ) {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            username\r\n            nome\r\n            email\r\n            role\r\n        }\r\n        medico {\r\n            id\r\n            username\r\n            email\r\n            role\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Inválido - Consultar por ID (Paciente Ana)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_ana",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query Consulta {\r\n    consulta(id: \"1\") {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            nome\r\n        }\r\n    }\r\n}\r\n"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Inválido - Editar consulta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_ana",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation EditarConsulta {\r\n    editarConsulta(\r\n        id: \"2\"\r\n        input: {\r\n            pacienteId: \"2\"\r\n            medicoId: \"1\"\r\n            dataHora: \"2026-09-20T14:30\"\r\n            observacoes: \"Alteração de consulta\"\r\n        }\r\n    ) {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            nome\r\n        }\r\n    }\r\n}\r\n"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Inválido - Cancelar consulta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_jose",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CancelarConsulta {\r\n    cancelarConsulta(id: \"2\") {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            id\r\n            nome\r\n        }\r\n        medico {\r\n            id\r\n            nome\r\n        }\r\n    }\r\n}\r\n"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Inválido - Alteração de status da consulta para realizada",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "paciente_ana",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation RealizarConsulta {\r\n    realizarConsulta(id: \"3\") {\r\n        id\r\n        dataHora\r\n        status\r\n        observacoes\r\n        paciente {\r\n            nome\r\n        }\r\n    }\r\n}\r\n",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
