@@ -117,5 +117,5 @@ Ele contém:
 ---
 ## 🎯 Conclusão
 
-O **Hospital API** implementa todos os requisitos do Tech Challenge da Fase 3, integrando **Spring Security (Basic Auth + RBAC)**, **GraphQL**, **microsserviços** e **comunicação assíncrona com RabbitMQ** em um ambiente containerizado com **Docker Compose**. O projeto está funcional, documentado e pronto para avaliação.
+O **Sistema de agendamento de consultas** implementa todos os requisitos do Tech Challenge da Fase 3, integrando **Spring Security (Basic Auth + RBAC)**, **GraphQL**, **microsserviços** e **comunicação assíncrona com RabbitMQ** em um ambiente containerizado com **Docker Compose**. O projeto está funcional, documentado e pronto para avaliação.
 
