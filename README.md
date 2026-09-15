@@ -83,7 +83,7 @@ O projeto inclui duas collections do Postman para facilitar os testes:
 
 ### 📁 REST — Cadastro de Usuários
 
-Localização na pasta "docs": `docs/collections/COLLECTION 1 -  REST.postman_collection.json`
+Localização na pasta: `docs/collections/COLLECTION 1 -  REST.postman_collection.json`
 
 **Como usar:**
 1. Importe no Postman (File → Import)
