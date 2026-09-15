@@ -83,7 +83,7 @@ O projeto inclui duas collections do Postman para facilitar os testes:
 
 ### 📁 REST — Cadastro de Usuários
 
-Localização: `docs/collections/COLLECTION 1 -  REST.postman_collection.json`
+Localização na pasta: `docs/collections/COLLECTION 1 -  REST.postman_collection.json`
 
 **Como usar:**
 1. Importe no Postman (File → Import)
@@ -95,7 +95,7 @@ Localização: `docs/collections/COLLECTION 1 -  REST.postman_collection.json`
 
 ### 📁 GraphQL — Consultas
 
-Localização: `docs/collections/COLLECTION 2 - GraphQL.postman_collection.json`
+Localização na pasta: `docs/collections/COLLECTION 2 - GraphQL.postman_collection.json`
 
 **Como usar:**
 1. Importe no Postman
@@ -105,7 +105,7 @@ Localização: `docs/collections/COLLECTION 2 - GraphQL.postman_collection.json`
 
 Para **detalhes aprofundados** sobre a arquitetura, decisões técnicas, modelagem de domínio, fundamentação teórica e decisões arquiteturais (ADRs), consulte o documento:
 
-> 📄 **`DOCUMENTACAO-TECNICA.md`**
+Localização na pasta : `docs\documentacao\DOCUMENTACAO-TECNICA.pdf`
 
 Ele contém:
 - Fundamentação teórica (microsserviços, GraphQL, mensageria, Spring Security);
